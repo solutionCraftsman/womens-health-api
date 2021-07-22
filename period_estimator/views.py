@@ -45,25 +45,34 @@ def create_cycles(request):
     if serializer.is_valid():
         created_cycle = serializer.save()
 
+        start_date = data['start_date']
         last_period_date = data['last_period_date']
+        start_creating_cycles = False
 
         while last_period_date < data['end_date']:
-            period_cycle = PeriodCycle.objects.create(
-                create_cycle_request=created_cycle,
-                start_date=last_period_date + timedelta(days=cycle_average),
-                end_date=last_period_date + timedelta(days=cycle_average + period_average),
-                ovulation_date=last_period_date + timedelta(days=cycle_average + (cycle_average // 2)),
-                fertility_window_start=last_period_date + timedelta(days=cycle_average + (cycle_average // 2) - 4),
-                fertility_window_end=last_period_date + timedelta(days=cycle_average + (cycle_average // 2) + 4),
-                pre_ovulation_window_start=last_period_date + timedelta(days=cycle_average + period_average + 1),
-                pre_ovulation_window_end=last_period_date + timedelta(
-                    days=cycle_average + (cycle_average // 2) - 4 - 1),
-                post_ovulation_window_start=last_period_date + timedelta(
-                    days=cycle_average + (cycle_average // 2) + 4 + 1),
-                post_ovulation_window_end=last_period_date + timedelta(days=cycle_average + cycle_average - 1)
-            )
 
-            last_period_date = getattr(period_cycle, 'start_date') + timedelta(days=cycle_average)
+            if start_date > last_period_date:
+                start_creating_cycles = True
+
+            if start_creating_cycles:
+                period_cycle = PeriodCycle.objects.create(
+                    create_cycle_request=created_cycle,
+                    start_date=last_period_date + timedelta(days=cycle_average),
+                    end_date=last_period_date + timedelta(days=cycle_average + period_average),
+                    ovulation_date=last_period_date + timedelta(days=cycle_average + (cycle_average // 2)),
+                    fertility_window_start=last_period_date + timedelta(days=cycle_average + (cycle_average // 2) - 4),
+                    fertility_window_end=last_period_date + timedelta(days=cycle_average + (cycle_average // 2) + 4),
+                    pre_ovulation_window_start=last_period_date + timedelta(days=cycle_average + period_average + 1),
+                    pre_ovulation_window_end=last_period_date + timedelta(
+                        days=cycle_average + (cycle_average // 2) - 4 - 1),
+                    post_ovulation_window_start=last_period_date + timedelta(
+                        days=cycle_average + (cycle_average // 2) + 4 + 1),
+                    post_ovulation_window_end=last_period_date + timedelta(days=cycle_average + cycle_average - 1)
+                )
+
+                last_period_date = getattr(period_cycle, 'start_date')
+
+            last_period_date = last_period_date + timedelta(days=cycle_average)
 
         created_cycles = PeriodCycle.objects.filter(create_cycle_request_id=created_cycle.id)
 
