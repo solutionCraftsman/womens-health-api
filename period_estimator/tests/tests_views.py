@@ -270,6 +270,13 @@ class CyclesEventTest(APITestCase):
         self.assertEqual(response.data.get('event'), 'post_ovulation_window')
         self.assertEqual(response.data.get('date'), datetime.strptime(self.post_ovulation_window, '%Y-%m-%d').date())
 
+    def test_get_cycles_event_with_non_existent_id_returns_not_found(self):
+        last_create_cycle_request = CreateCycleRequest.objects.all().last()
+        response = self.get_cycles_event(getattr(last_create_cycle_request, 'id') + 1, self.start_date)
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertTrue(response.data.__contains__('message'))
+
     def test_get_cycles_event_with_out_of_range_date_returns_not_found(self):
         response = self.get_cycles_event(self.create_cycle_request_id, self.out_of_range_date)
 

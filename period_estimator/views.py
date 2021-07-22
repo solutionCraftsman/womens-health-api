@@ -111,12 +111,12 @@ def get_cycle_event(request):
             'message': 'Error in request parameter',
         }, status=status.HTTP_400_BAD_REQUEST)
 
-    period_cycles = PeriodCycle.objects.filter(create_cycle_request_id=create_cycle_request_id)
-
-    if period_cycles is None:
+    if not CreateCycleRequest.objects.filter(pk=create_cycle_request_id).exists():
         return Response({
             'message': 'Request with id ' + str(create_cycle_request_id) + ' not found'
         }, status=status.HTTP_404_NOT_FOUND)
+
+    period_cycles = PeriodCycle.objects.filter(create_cycle_request_id=create_cycle_request_id)
 
     has_found_event = False
     event: str = ''
