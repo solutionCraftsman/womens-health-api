@@ -10,7 +10,7 @@ To skip installing locally, the API service is hosted [here](https://womens-heal
 
 ### API Documentation
 
-#### Requests
+#### Request
 Predict the dates of a lady’s estimated period cycles within a timeframe.
 ```http
 POST /womens-health/api/create-cycles
@@ -50,3 +50,56 @@ POST /womens-health/api/create-cycles
       "message": "Error in request data"
     }
     ```
+
+#### Request
+Returns the event happening in a lady’s cycle for the specified day.
+```http
+GET /women-healths/api/cycle-event?create_cycle_request_id=<integer>date=<string>
+```
+
+| Parameter | Type | Description | Example |
+| :--- | :--- | :--- | :--- |
+| `create_cycle_request_id` | `integer` | **Required**. ID of the initial request used to create the period cycles. | 1 |
+| `date` | `string` | **Required**. Date for which event is to be returned  | '2021-01-01' |
+
+#### Responses
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** <br>
+    ```javascript
+    [
+       {
+          "event":"fertility_window",
+          "date":"2021-01-01”
+       }
+    ]
+    ```
+  
+* **Error Response:**
+
+  * **Code:** 404 NOT FOUND <br />
+    **Content:** <br> 
+    ```javascript
+    {
+      "message": "Request with id <id> not found"
+    }
+    ```
+
+  * **Code:** 404 NOT FOUND <br />
+    **Content:** <br> 
+    ```javascript
+    {
+      "message": "No Event Found for date <date>"
+    }
+    ```
+
+  * **Code:** 400 BAD REQUEST <br />
+    **Content:** <br> 
+    ```javascript
+    {
+      "message": "Error in request parameter"
+    }
+    ```
+
