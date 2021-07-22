@@ -54,7 +54,7 @@ POST /womens-health/api/create-cycles
 #### Request
 Returns the event happening in a lady’s cycle for the specified day.
 ```http
-GET /women-healths/api/cycle-event?create_cycle_request_id=<integer>date=<string>
+GET /women-healths/api/cycle-event?create_cycle_request_id=<integer>&date=<string>
 ```
 
 | Parameter | Type | Description | Example |
