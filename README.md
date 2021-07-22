@@ -1,11 +1,12 @@
 ## Women's Health API!
 
 ### Installation Guide
-To skip installing locally, the API service is hosted [here](https://womens-health-api.herokuapp.com/).
+To skip installing locally, the API service is hosted [here](https://womens-health-api.herokuapp.com).
 
 * Clone this Repository
 * Preferably, set up a virtual environment. You can follow the guide [here](https://docs.python.org/3/library/venv.html).
 * While in the root directory, run "pip install requirements.txt" to install the required packages.
+* Make migrations by running .
 * Start the server by running "python manage.py runserver"
 
 ### API Documentation

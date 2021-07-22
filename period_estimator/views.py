@@ -155,7 +155,7 @@ def get_cycle_event(request):
             )
 
     return Response({
-        'message': 'No Event Found for date ' + str(date)
+        'message': 'No Event Found for date ' + str(date.date())
     }, status=status.HTTP_404_NOT_FOUND)
 
 
