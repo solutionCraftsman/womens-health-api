@@ -10,4 +10,9 @@ To skip installing locally, the API service is hosted [here](https://awtwvo.hero
 
 ### API Documentation
 
-# womens-health-api
+#### Requests
+Predict the predicted dates of a lady’s estimated period cycles within a timeframe.
+```http
+POST /womens-health/api/create-cycles
+```
+
